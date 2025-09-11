@@ -1,83 +1,56 @@
-#include "Student.h"
+#include "Subject.h"
 #include <cstring>
 
-Student::Student()
+Subject::Subject()
 {
     name = nullptr;
-    marks = nullptr;
-    count_of_marks = 0;
 }
 
-Student::Student(const char* n, int count)
+Subject::Subject(const char* n)
 {
     name = new char[strlen(n) + 1];
     strcpy_s(name, strlen(n) + 1, n);
-    count_of_marks = count;
-    marks = new int[count_of_marks];
-    for (int i = 0; i < count_of_marks; i++)
-    {
-        marks[i] = 0;
-    }
 }
 
-Student::~Student()
+Subject::~Subject()
 {
     delete[] name;
-    delete[] marks;
 }
 
-void Student::set_name(const char* n)
+void Subject::set_name(const char* n)
 {
-    if (this->name != nullptr)
+    if (name != nullptr)
     {
-        delete[] this->name;
+        delete[] name;
     }
-    this->name = new char[strlen(n) + 1];
-    strcpy_s(this->name, strlen(n) + 1, n);
+    name = new char[strlen(n) + 1];
+    strcpy_s(name, strlen(n) + 1, n);
 }
 
-char* Student::get_name()
+const char* Subject::get_name()
 {
-    return this->name;
+    return name;
 }
 
-void Student::set_mark(int index, int mark)
+void Subject::copy_from(const Subject& other)
 {
-    if (index >= 0 && index < count_of_marks)
+    if (name != nullptr)
     {
-        this->marks[index] = mark;
+        delete[] name;
+    }
+
+    if (other.name != nullptr)
+    {
+        name = new char[strlen(other.name) + 1];
+        strcpy_s(name, strlen(other.name) + 1, other.name);
+    }
+    else
+    {
+        name = nullptr;
     }
 }
 
-int Student::get_mark(int index)
+void Subject::print()
 {
-    if (index >= 0 && index < count_of_marks)
-    {
-        return this->marks[index];
-    }
-    return 0;
-}
-
-double Student::average()
-{
-    int sum = 0;
-    for (int i = 0; i < count_of_marks; i++)
-    {
-        sum += this->marks[i];
-    }
-    if (count_of_marks > 0)
-    {
-        return (double)sum / count_of_marks;
-    }
-    return 0;
-}
-
-void Student::print()
-{
-    cout << this->name << ": ";
-    for (int i = 0; i < count_of_marks; i++)
-    {
-        cout << this->marks[i] << " ";
-    }
-    cout << "Average: " << this->average() << endl;
+    cout << name << endl;
 }

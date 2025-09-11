@@ -12,7 +12,9 @@ public:
     ~Subject();
 
     void set_name(const char* n);
-    char* get_name();
+    const char* get_name();
+
+    void copy_from(const Subject& other);
 
     void print();
 };

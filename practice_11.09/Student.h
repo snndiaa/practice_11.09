@@ -14,11 +14,14 @@ public:
     ~Student();
 
     void set_name(const char* n);
-    char* get_name();
+    const char* get_name();
+    int get_count_of_marks() const;
 
     void set_mark(int index, int mark);
     int get_mark(int index);
     double average();
+
+    void copy_from(const Student& other);
 
     void print();
 };

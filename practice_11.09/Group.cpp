@@ -34,7 +34,7 @@ void Group::set_student(int index, Student s)
 {
     if (index >= 0 && index < count_of_students)
     {
-        students[index] = s;
+        students[index].copy_from(s);
     }
 }
 
@@ -47,7 +47,7 @@ void Group::set_subject(int index, Subject s)
 {
     if (index >= 0 && index < count_of_subjects)
     {
-        subjects[index] = s;
+        subjects[index].copy_from(s);
     }
 }
 
@@ -65,7 +65,7 @@ double Group::subject_average(int subj_index)
     }
     if (count_of_students > 0)
     {
-        return (double)sum / count_of_students;
+        return static_cast<double>(sum) / count_of_students;
     }
     return 0;
 }

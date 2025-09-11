@@ -1,38 +1,124 @@
-#include "Subject.h"
+#include "Student.h"
 #include <cstring>
 
-Subject::Subject()
+Student::Student()
 {
     name = nullptr;
+    marks = nullptr;
+    count_of_marks = 0;
 }
 
-Subject::Subject(const char* n)
+Student::Student(const char* n, int count)
 {
+    name = new char[strlen(n) + 1];
+    strcpy_s(name, strlen(n) + 1, n);
+    count_of_marks = count;
+    marks = new int[count_of_marks];
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        marks[i] = 0;
+    }
+}
+
+Student::~Student()
+{
+    delete[] name;
+    delete[] marks;
+}
+
+void Student::set_name(const char* n)
+{
+    if (name != nullptr)
+    {
+        delete[] name;
+    }
     name = new char[strlen(n) + 1];
     strcpy_s(name, strlen(n) + 1, n);
 }
 
-Subject::~Subject()
+const char* Student::get_name()
 {
-    delete[] name;
+    return name;
 }
 
-void Subject::set_name(const char* n)
+int Student::get_count_of_marks() const
 {
-    if (this->name != nullptr)
+    return count_of_marks;
+}
+
+void Student::set_mark(int index, int mark)
+{
+    if (index >= 0 && index < count_of_marks)
     {
-        delete[] this->name;
+        marks[index] = mark;
     }
-    this->name = new char[strlen(n) + 1];
-    strcpy_s(this->name, strlen(n) + 1, n);
 }
 
-char* Subject::get_name()
+int Student::get_mark(int index)
 {
-    return this->name;
+    if (index >= 0 && index < count_of_marks)
+    {
+        return marks[index];
+    }
+    return 0;
 }
 
-void Subject::print()
+double Student::average()
 {
-    cout << this->name << endl;
+    int sum = 0;
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        sum += marks[i];
+    }
+    if (count_of_marks > 0)
+    {
+        return static_cast<double>(sum) / count_of_marks;
+    }
+    return 0;
+}
+
+void Student::copy_from(const Student& other)
+{
+    if (name != nullptr)
+    {
+        delete[] name;
+    }
+    if (marks != nullptr)
+    {
+        delete[] marks;
+    }
+
+    if (other.name != nullptr)
+    {
+        name = new char[strlen(other.name) + 1];
+        strcpy_s(name, strlen(other.name) + 1, other.name);
+    }
+    else
+    {
+        name = nullptr;
+    }
+
+    count_of_marks = other.count_of_marks;
+    if (count_of_marks > 0 && other.marks != nullptr)
+    {
+        marks = new int[count_of_marks];
+        for (int i = 0; i < count_of_marks; i++)
+        {
+            marks[i] = other.marks[i];
+        }
+    }
+    else
+    {
+        marks = nullptr;
+    }
+}
+
+void Student::print()
+{
+    cout << name << ": ";
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        cout << marks[i] << " ";
+    }
+    cout << "Average: " << average() << endl;
 }
