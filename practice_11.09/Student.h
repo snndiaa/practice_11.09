@@ -12,6 +12,7 @@ public:
     Student();
     Student(const char* n, int count);
     ~Student();
+    Student(const Student& other);
 
     void set_name(const char* n);
     const char* get_name();

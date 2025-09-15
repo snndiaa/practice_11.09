@@ -1,23 +1,40 @@
-#include "Subject.h"
+#include "Student.h"
 #include <cstring>
 
-Subject::Subject()
+Student::Student()
 {
     name = nullptr;
+    marks = nullptr;
+    count_of_marks = 0;
 }
 
-Subject::Subject(const char* n)
+Student::Student(const char* n, int count)
 {
     name = new char[strlen(n) + 1];
     strcpy_s(name, strlen(n) + 1, n);
+    count_of_marks = count;
+    marks = new int[count_of_marks];
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        marks[i] = 0;
+    }
 }
 
-Subject::~Subject()
+Student::~Student()
 {
     delete[] name;
+    delete[] marks;
 }
 
-void Subject::set_name(const char* n)
+Student::Student(const Student& other)
+{
+    name = nullptr;
+    marks = nullptr;
+    count_of_marks = 0;
+    copy_from(other);
+}
+
+void Student::set_name(const char* n)
 {
     if (name != nullptr)
     {
@@ -27,16 +44,56 @@ void Subject::set_name(const char* n)
     strcpy_s(name, strlen(n) + 1, n);
 }
 
-const char* Subject::get_name()
+const char* Student::get_name()
 {
     return name;
 }
 
-void Subject::copy_from(const Subject& other)
+int Student::get_count_of_marks() const
+{
+    return count_of_marks;
+}
+
+void Student::set_mark(int index, int mark)
+{
+    if (index >= 0 && index < count_of_marks)
+    {
+        marks[index] = mark;
+    }
+}
+
+int Student::get_mark(int index)
+{
+    if (index >= 0 && index < count_of_marks)
+    {
+        return marks[index];
+    }
+    return 0;
+}
+
+double Student::average()
+{
+    int sum = 0;
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        sum += marks[i];
+    }
+    if (count_of_marks > 0)
+    {
+        return static_cast<double>(sum) / count_of_marks;
+    }
+    return 0;
+}
+
+void Student::copy_from(const Student& other)
 {
     if (name != nullptr)
     {
         delete[] name;
+    }
+    if (marks != nullptr)
+    {
+        delete[] marks;
     }
 
     if (other.name != nullptr)
@@ -48,9 +105,28 @@ void Subject::copy_from(const Subject& other)
     {
         name = nullptr;
     }
+
+    count_of_marks = other.count_of_marks;
+    if (count_of_marks > 0 && other.marks != nullptr)
+    {
+        marks = new int[count_of_marks];
+        for (int i = 0; i < count_of_marks; i++)
+        {
+            marks[i] = other.marks[i];
+        }
+    }
+    else
+    {
+        marks = nullptr;
+    }
 }
 
-void Subject::print()
+void Student::print()
 {
-    cout << name << endl;
+    cout << name << ": ";
+    for (int i = 0; i < count_of_marks; i++)
+    {
+        cout << marks[i] << " ";
+    }
+    cout << "Average: " << average() << endl;
 }

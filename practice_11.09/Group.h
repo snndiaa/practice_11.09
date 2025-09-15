@@ -14,6 +14,7 @@ public:
     Group();
     Group(const char* n, int st_count, int sub_count);
     ~Group();
+    Group(const Group& other);
 
     void set_student(int index, Student s);
     Student& get_student(int index);

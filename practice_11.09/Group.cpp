@@ -30,6 +30,42 @@ Group::~Group()
     delete[] subjects;
 }
 
+Group::Group(const Group& other)
+{
+    name = nullptr;
+    students = nullptr;
+    subjects = nullptr;
+    count_of_students = 0;
+    count_of_subjects = 0;
+
+    if (other.name != nullptr)
+    {
+        name = new char[strlen(other.name) + 1];
+        strcpy_s(name, strlen(other.name) + 1, other.name);
+    }
+
+    count_of_students = other.count_of_students;
+    count_of_subjects = other.count_of_subjects;
+
+    if (count_of_students > 0)
+    {
+        students = new Student[count_of_students];
+        for (int i = 0; i < count_of_students; i++)
+        {
+            students[i].copy_from(other.students[i]);
+        }
+    }
+
+    if (count_of_subjects > 0)
+    {
+        subjects = new Subject[count_of_subjects];
+        for (int i = 0; i < count_of_subjects; i++) {
+            subjects[i].copy_from(other.subjects[i]);
+        }
+    }
+}
+
+
 void Group::set_student(int index, Student s)
 {
     if (index >= 0 && index < count_of_students)

@@ -10,6 +10,7 @@ public:
     Subject();
     Subject(const char* n);
     ~Subject();
+    Subject(const Subject& other);
 
     void set_name(const char* n);
     const char* get_name();
