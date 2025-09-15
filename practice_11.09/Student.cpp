@@ -28,10 +28,30 @@ Student::~Student()
 
 Student::Student(const Student& other)
 {
-    name = nullptr;
-    marks = nullptr;
-    count_of_marks = 0;
-    copy_from(other);
+    if (other.name)
+    {
+        name = new char[strlen(other.name) + 1];
+        strcpy_s(name, strlen(other.name) + 1, other.name);
+    }
+    else
+    {
+        name = nullptr;
+    }
+
+    count_of_marks = other.count_of_marks;
+
+    if (count_of_marks > 0 && other.marks)
+    {
+        marks = new int[count_of_marks];
+        for (int i = 0; i < count_of_marks; i++)
+        {
+            marks[i] = other.marks[i];
+        }
+    }
+    else
+    {
+        marks = nullptr;
+    }
 }
 
 void Student::set_name(const char* n)

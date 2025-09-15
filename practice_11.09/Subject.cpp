@@ -19,8 +19,15 @@ Subject::~Subject()
 
 Subject::Subject(const Subject& other)
 {
-    name = nullptr;
-    copy_from(other);
+    if (other.name)
+    {
+        name = new char[strlen(other.name) + 1];
+        strcpy_s(name, strlen(other.name) + 1, other.name);
+    }
+    else
+    {
+        name = nullptr;
+    }
 }
 
 void Subject::set_name(const char* n)
